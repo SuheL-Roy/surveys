@@ -11,10 +11,49 @@ const tempSurveys = [
         "description":"1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Minibus Bonum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.",
         questions:[
                 {
-                "id": 1,
-                "title": "delectus aut autem",
-                "completed": false
+                 id: 1,
+                 type: "select",
+                 question : "From which country are you",
+                 description: null,
+                  data: {
+                      options:[
+                          {uuid:"d1d445b0-99ea-11ec-b909-0242ac120002",text:"A"},
+                          {uuid:"a25c731a-99eb-11ec-b909-0242ac120002",text:"b"},
+                          {uuid:"dbcc1254-57d1-42b6-8dc5-74e3c9b2f618",text:"c"},
+                          {uuid:"2dfdbec7-ef24-4f21-98d7-9a05060bd2f9",text:"d"}
+                      ]
+                  }
                 },
+                {
+                    id: 2,
+                    type: "textarea",
+                    question : "From which country are you",
+                    description: null,
+                     data: {
+                         options:[
+                             {uuid:"d1d445b0-99ea-11ec-b909-0242ac120002",text:"E"},
+                             {uuid:"a25c731a-99eb-11ec-b909-0242ac120002",text:"F"},
+                             {uuid:"dbcc1254-57d1-42b6-8dc5-74e3c9b2f618",text:"G"},
+                             {uuid:"2dfdbec7-ef24-4f21-98d7-9a05060bd2f9",text:"H"}
+                         ]
+                     }
+                   },
+                   {
+                    id: 3,
+                    type: "radio",
+                    question : "From which country are you",
+                    description: null,
+                     data: {
+                         options:[
+                             {uuid:"d1d445b0-99ea-11ec-b909-0242ac120002",text:"I"},
+                             {uuid:"a25c731a-99eb-11ec-b909-0242ac120002",text:"J"},
+                             {uuid:"dbcc1254-57d1-42b6-8dc5-74e3c9b2f618",text:"K"},
+                             {uuid:"2dfdbec7-ef24-4f21-98d7-9a05060bd2f9",text:"L"}
+                         ]
+                     }
+                   },      
+                   
+
         ]
     },
     {
@@ -25,9 +64,13 @@ const tempSurveys = [
         "description":"1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Minibus Bonum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.",
         questions:[
             {
-            "id": 2,
-            "title": "delectus aut autem",
-            "completed": false
+                id: 1,
+                type: "checkbox",
+                question : "From which country are you",
+                description: "welcome to survey",
+                data: {
+                    options:[]
+                },
             },
     ]
     },
@@ -38,9 +81,13 @@ const tempSurveys = [
         "description":"1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Minibus Bonum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.",
         questions:[
             {
-            "id": 1,
-            "title": "delectus aut autem",
-            "completed": false
+                id: 1,
+                type: "textarea",
+                question : "From which country are you",
+                description: "welcome to survey",
+                data: {
+                    options:[]
+                },
             },
     ]
     },
@@ -66,7 +113,22 @@ const tempSurveys = [
         "status":true,
         "image_url": "https://via.placeholder.com/600/92c952",
         "description":"1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Minibus Bonum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.",
-        questions:[]
+        questions:[
+            {
+                id: 1,
+                type: "textarea",
+                question : "From which country are you",
+                description: null,
+                data: {
+                     options:[
+                         {uuid:"d1d445b0-99ea-11ec-b909-0242ac120002",text:"BD"},
+                         {uuid:"a25c731a-99eb-11ec-b909-0242ac120002",text:"GE"},
+                         {uuid:"dbcc1254-57d1-42b6-8dc5-74e3c9b2f618",text:"Fin"},
+                         {uuid:"2dfdbec7-ef24-4f21-98d7-9a05060bd2f9",text:"US"}
+                     ]
+                 },
+               },
+        ]
     },
 
     ]
@@ -78,6 +140,7 @@ const store = createStore({
             token:sessionStorage.getItem('TOKEN'),
         },
         surveys:[...tempSurveys],
+        questionTypes: ["text", "select", "radio", "checkbox", "textarea"],
     },
     getters:{},
     actions:{
