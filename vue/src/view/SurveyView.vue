@@ -185,12 +185,13 @@
 
 import store from "../store/index.js";
 import { ref } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute,useRouter } from "vue-router";
 import { v4 as uuidv4 } from "uuid";
 import PageComponent from '../components/PageComponent.vue'
 import QuestionEditor from '../components/QuestionEditor.vue'
 
 const route = useRoute();
+const router = useRouter()
 
 let model = ref({
     title: "",
@@ -205,6 +206,16 @@ if (route.params.id) {
     model.value = store.state.surveys.find(
         (s) => s.id === parseInt(route.params.id)
     );
+}
+function onImageChoose(ev){
+   const file = ev.target.files[0];
+   const reader = new FileReader();
+   reader.onload=()=>{
+     model.value.image = reader.result;
+     model.value.image_url = reader.result;
+     ev.target.value = "";
+   }
+   reader.readAsDataURL(file);
 }
 
 function addQuestion(index) {
@@ -229,6 +240,16 @@ function questionChange(question){
       return JSON.parse(JSON.stringify(question))
     }
     return q;
+  })
+}
+
+function saveSurvey(){
+  // console.log('hi');
+  store.dispatch('saveSurvey',model.value).then(({data})=>{
+    router.push({
+      name:"SurveyView",
+      params: {id: data.data.id},
+    })
   })
 }
 
