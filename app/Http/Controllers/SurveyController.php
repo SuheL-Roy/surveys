@@ -78,7 +78,21 @@ class SurveyController extends Controller
      */
     public function update(UpdateSurveyRequest $request, Survey $survey)
     {
-        $survey->update($request->validated());
+       /// $survey->update($request->validated());
+       $data = $request->validated();
+
+        // Check if image was given and save on local file system
+        if (isset($data['image'])) {
+            $relativePath = $this->saveImage($data['image']);
+            $data['image'] = $relativePath;
+
+            // If there is an old image, delete it
+            if ($survey->image) {
+                $absolutePath = public_path($survey->image);
+                File::delete($absolutePath);
+            }
+        }
+        $survey->update($data);
         return new SurveyResource(($survey));
     }
 
@@ -95,6 +109,13 @@ class SurveyController extends Controller
             return abort(403,'Unauthorized action'); 
         }
         $survey->delete();
+
+        // If there is an old image, delete it
+        if ($survey->image) {
+            $absolutePath = public_path($survey->image);
+            File::delete($absolutePath);
+        }
+
         return response('', status:204);
     }
 

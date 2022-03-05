@@ -89,13 +89,21 @@ import store from "../store/index.js";
 import { computed } from "vue";
 import PageComponent from "../components/PageComponent.vue";
 
-const surveys = computed(() => store.state.surveys);
+const surveys = computed(() => store.state.surveys.data);
+
+store.dispatch("getSurveys");
 
  function deleteSurvey(survey){
     //console.log("welcome");
-    if(confirm(`are you sure you want to delete this survey? operation can,t be undone`)){
-        
-    }
+  if (
+    confirm(
+      `Are you sure you want to delete this survey? Operation can't be undone!!`
+    )
+  ) {
+    store.dispatch("deleteSurvey", survey.id).then(() => {
+      store.dispatch("getSurveys");
+    });
+  }
  }
 
 </script>

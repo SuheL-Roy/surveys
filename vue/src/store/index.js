@@ -2,136 +2,6 @@
 import {createStore} from 'vuex';
 import axiosClient from '../axios';
 
-const tempSurveys = [
-    {
-        "id": 1,
-        "title": "welcome to shark world",
-        "status":false,
-        "image_url": "https://via.placeholder.com/600/92c952",
-        "description":"1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Minibus Bonum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.",
-        questions:[
-                {
-                 id: 1,
-                 type: "select",
-                 question : "From which country are you",
-                 description: null,
-                  data: {
-                      options:[
-                          {uuid:"d1d445b0-99ea-11ec-b909-0242ac120002",text:"A"},
-                          {uuid:"a25c731a-99eb-11ec-b909-0242ac120002",text:"b"},
-                          {uuid:"dbcc1254-57d1-42b6-8dc5-74e3c9b2f618",text:"c"},
-                          {uuid:"2dfdbec7-ef24-4f21-98d7-9a05060bd2f9",text:"d"}
-                      ]
-                  }
-                },
-                {
-                    id: 2,
-                    type: "textarea",
-                    question : "From which country are you",
-                    description: null,
-                     data: {
-                         options:[
-                             {uuid:"d1d445b0-99ea-11ec-b909-0242ac120002",text:"E"},
-                             {uuid:"a25c731a-99eb-11ec-b909-0242ac120002",text:"F"},
-                             {uuid:"dbcc1254-57d1-42b6-8dc5-74e3c9b2f618",text:"G"},
-                             {uuid:"2dfdbec7-ef24-4f21-98d7-9a05060bd2f9",text:"H"}
-                         ]
-                     }
-                   },
-                   {
-                    id: 3,
-                    type: "radio",
-                    question : "From which country are you",
-                    description: null,
-                     data: {
-                         options:[
-                             {uuid:"d1d445b0-99ea-11ec-b909-0242ac120002",text:"I"},
-                             {uuid:"a25c731a-99eb-11ec-b909-0242ac120002",text:"J"},
-                             {uuid:"dbcc1254-57d1-42b6-8dc5-74e3c9b2f618",text:"K"},
-                             {uuid:"2dfdbec7-ef24-4f21-98d7-9a05060bd2f9",text:"L"}
-                         ]
-                     }
-                   },      
-                   
-
-        ]
-    },
-    {
-        "id": 2,
-        "title": "welcome to shark world",
-        "status":true,
-        "image_url": "https://via.placeholder.com/600/92c952",
-        "description":"1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Minibus Bonum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.",
-        questions:[
-            {
-                id: 1,
-                type: "checkbox",
-                question : "From which country are you",
-                description: "welcome to survey",
-                data: {
-                    options:[]
-                },
-            },
-    ]
-    },
-    {
-        "id": 3,
-        "title": "welcome to shark world",
-        "image_url": "https://via.placeholder.com/600/92c952",
-        "description":"1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Minibus Bonum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.",
-        questions:[
-            {
-                id: 1,
-                type: "textarea",
-                question : "From which country are you",
-                description: "welcome to survey",
-                data: {
-                    options:[]
-                },
-            },
-    ]
-    },
-    {
-        "id": 4,
-        "title": "welcome to shark world",
-        "status":false,
-        "image_url": "https://via.placeholder.com/600/92c952",
-        "description":"1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Minibus Bonum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.",
-        questions:[]
-    },
-    {
-        "id": 5,
-        "title": "welcome to shark world",
-        "status":false,
-        "image_url": "https://via.placeholder.com/600/92c952",
-        "description":"1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Minibus Bonum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.",
-        questions:[]
-    },
-    {
-        "id": 6,
-        "title": "welcome to shark world",
-        "status":true,
-        "image_url": "https://via.placeholder.com/600/92c952",
-        "description":"1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Minibus Bonum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.",
-        questions:[
-            {
-                id: 1,
-                type: "textarea",
-                question : "From which country are you",
-                description: null,
-                data: {
-                     options:[
-                         {uuid:"d1d445b0-99ea-11ec-b909-0242ac120002",text:"BD"},
-                         {uuid:"a25c731a-99eb-11ec-b909-0242ac120002",text:"GE"},
-                         {uuid:"dbcc1254-57d1-42b6-8dc5-74e3c9b2f618",text:"Fin"},
-                         {uuid:"2dfdbec7-ef24-4f21-98d7-9a05060bd2f9",text:"US"}
-                     ]
-                 },
-               },
-        ]
-    },
-
-    ]
 
 const store = createStore({
     state:{
@@ -139,29 +9,68 @@ const store = createStore({
             data:{ },
             token:sessionStorage.getItem('TOKEN'),
         },
-        surveys:[...tempSurveys],
+        currentSurvey: {
+            data: {},
+            loading: false,
+        },
+        surveys:{
+            loading:false,
+            data:[],
+        },
         questionTypes: ["text", "select", "radio", "checkbox", "textarea"],
     },
     getters:{},
     actions:{
+        getSurvey({commit},id){
+            commit("setCurrentSurveyLoading", true);
+            return axiosClient
+              .get(`/survey/${id}`)
+              .then((res) => {
+                commit("setCurrentSurvey", res.data);
+                commit("setCurrentSurveyLoading", false);
+                return res;
+              })
+              .catch((err) => {
+                commit("setCurrentSurveyLoading", false);
+                throw err;
+              });  
+
+
+        },
+
+        getSurveys({ commit }, {url = null} = {}) {
+            commit('setSurveysLoading', true)
+            url = url || "/survey";
+            return axiosClient.get(url).then((res) => {
+              commit('setSurveysLoading', false)
+              commit("setSurveys", res.data);
+              return res;
+            });
+          },
         saveSurvey({ commit },survey){
-            delete survey.image_url;
+            //delete survey.image_url;
                  let response;
                  if(survey.id){
                      response = axiosClient
                      .put(`/survey/${survey.id}`,survey)
                      .then((res)=>{
-                         commit('updateSurvey',res.data);
+                         commit('setCurrentSurvey',res.data);
                          return res;
                      })
                  }else{
                      response = axiosClient.post("/survey",survey).then((res)=>{
-                            commit("saveSurvey",res.data);
+                            commit("setCurrentSurvey",res.data);
                             return res;
                      });
                  }
                  return response;
         },
+        deleteSurvey({ dispatch }, id) {
+            return axiosClient.delete(`/survey/${id}`).then((res) => {
+             // dispatch('getSurveys')
+              return res;
+            });
+          },
         register({commit},user){
             return axiosClient.post('/register',user)
             .then(({data})=>{
@@ -186,17 +95,22 @@ const store = createStore({
         }
     },
     mutations:{
-        saveSurvey:(state,survey)=>{
-            state.surveys =[...state.surveys,survey.data];
-        },
-        updateSurvey:(state,survey)=>{
-          state.surveys = state.surveys.map((s)=>{
-              if(s.id == survey.data.id){
-              return survey.data;
-              }
-              return s;
-          })
-        },
+        setCurrentSurveyLoading: (state, loading) => {
+            state.currentSurvey.loading = loading;
+          },
+          setCurrentSurvey: (state, survey) => {
+            state.currentSurvey.data = survey.data;
+           // console.log(surveys.data);
+          },
+          setSurveysLoading: (state, loading) => {
+            state.surveys.loading = loading;
+          },
+          setSurveys: (state, surveys) => {
+           // state.surveys.links = surveys.meta.links;
+            state.surveys.data = surveys.data;
+          //  console.log(surveys.data);
+          },
+        
         logout:state=>{
             state.user.data={};
             state.user.token=null;
