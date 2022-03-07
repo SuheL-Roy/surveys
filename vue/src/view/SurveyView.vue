@@ -269,15 +269,14 @@ function onImageChoose(ev) {
 }
 
 function addQuestion(index) {
-    const newQuestion = {
-        id: uuidv4(),
-        type: "text",
-        question: "",
-        description: null,
-        data: {},
-    };
-
-    model.value.questions.splice(index, 0, newQuestion);
+  const newQuestion = {
+    id: uuidv4(),
+    type: "text",
+    question: "",
+    description: null,
+    data: {},
+  };
+  model.value.questions.splice(index, 0, newQuestion);
 }
 
 function deleteQuestion(question) {
@@ -292,10 +291,28 @@ function questionChange(question) {
         return q;
     });
 }
+// function questionChange(question) {
+//   // Important to explicitelly assign question.data.options, because otherwise it is a Proxy object
+//   // and it is lost in JSON.stringify()
+//   if (question.data.options) {
+//     question.data.options = [...question.data.options];
+//   }
+//   model.value.questions = model.value.questions.map((q) => {
+//     if (q.id === question.id) {
+//       return JSON.parse(JSON.stringify(question));
+//     }
+//     return q;
+//   });
+// }
+
 
 function saveSurvey() {
     // console.log('hi');
     store.dispatch("saveSurvey", model.value).then(({ data }) => {
+        store.commit('notify',{
+            type:'success',
+            message:'Survey was successfully updated'
+        })
         router.push({
             name: "SurveyView",
             params: { id: data.data.id },

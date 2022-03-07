@@ -78,6 +78,7 @@
         <div class="pt-4 pb-3 border-t border-gray-700">
           <div class="flex items-center px-5">
             <div class="flex-shrink-0">
+              <!-- <img class="h-10 w-10 rounded-full" :src="user.imageUrl" alt="" /> -->
               <img class="h-10 w-10 rounded-full" :src="user.imageUrl" alt="" />
             </div>
             <div class="ml-3">
@@ -97,6 +98,8 @@
     </Disclosure>
 
    <router-view></router-view>
+
+   <Notification/>
   </div>
 </template>
 
@@ -106,6 +109,7 @@ import { BellIcon, MenuIcon, XIcon } from '@heroicons/vue/outline'
 import {useStore} from 'vuex';
 import {computed} from 'vue';
 import {useRouter} from 'vue-router';
+import Notification from './Notification.vue';
 
 // const user = {
 //   name: 'Tom Cook',
@@ -138,6 +142,7 @@ export default {
     BellIcon,
     MenuIcon,
     XIcon,
+    Notification
   },
   setup() {
     const store = useStore();

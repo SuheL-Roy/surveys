@@ -18,6 +18,12 @@ const store = createStore({
             data:[],
         },
         questionTypes: ["text", "select", "radio", "checkbox", "textarea"],
+
+        Notification:{
+            show:false,
+            type:null,
+            message:null
+        }
     },
     getters:{},
     actions:{
@@ -109,6 +115,15 @@ const store = createStore({
            // state.surveys.links = surveys.meta.links;
             state.surveys.data = surveys.data;
           //  console.log(surveys.data);
+          },
+
+          notify:(state,{message,type})=>{
+               state.Notification.show = true;
+               state.Notification.type = type;
+               state.Notification.message = message;
+               setTimeout(()=>{
+                   state.Notification.show = false;
+               },3000);
           },
         
         logout:state=>{

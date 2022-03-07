@@ -263,46 +263,36 @@
     </div>
   </div>
   <!--/ Data -->
+</div>
 
-  <hr class="my-4" />
-  </div>
 </template>
 
 <script setup>
 import { v4 as uuidv4 } from "uuid";
 import { computed, ref } from "@vue/reactivity";
 import store from "../store/index.js";
-
 const props = defineProps({
   question: Object,
   index: Number,
 });
-
 const emit = defineEmits(["change", "addQuestion", "deleteQuestion"]);
 
-// Re-create the whole question data to avoid unintentional reference change
 const model = ref(JSON.parse(JSON.stringify(props.question)));
 
-// Get question types from vuex
 const questionTypes = computed(() => store.state.questionTypes);
-
 function upperCaseFirst(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
-
 function getOptions() {
   return model.value.data.options;
 }
-
 function setOptions(options) {
   model.value.data.options = options;
 }
-
 // Check if the question should have options
 function shouldHaveOptions() {
   return ["select", "radio", "checkbox"].includes(model.value.type);
 }
-
 // Add option
 function addOption() {
   setOptions([
@@ -311,38 +301,30 @@ function addOption() {
   ]);
   dataChange();
 }
-
 // Remove option
 function removeOption(op) {
   setOptions(getOptions().filter((opt) => opt !== op));
   dataChange();
 }
-
 function typeChange() {
   if (shouldHaveOptions()) {
     setOptions(getOptions() || []);
   }
   dataChange();
 }
-
 // Emit the data change
 function dataChange() {
- // const data = model.value;
- const data = JSON.parse(JSON(stringify(model.value)))
+  const data = model.value;
   if (!shouldHaveOptions()) {
     delete data.data.options;
   }
-
   emit("change", data);
 }
-
 function addQuestion() {
   emit("addQuestion", props.index + 1);
 }
-
 function deleteQuestion() {
   emit("deleteQuestion", props.question);
 }
 </script>
 
-<style></style>

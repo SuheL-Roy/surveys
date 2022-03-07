@@ -25,9 +25,10 @@
                 </router-link>
             </div>
         </template>
+        <!-- <div v-if="surveyLoading" class="flex justify-center">Loading...</div> -->
         <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
             <div
-                v-for="survey in surveys"
+                v-for="survey in surveys.data"
                 :key="survey.id"
                 class="flex flex-col py-4 px-6 shadow-md bg-white hover:bg-gray-50 h-[470px"
             >
@@ -89,7 +90,7 @@ import store from "../store/index.js";
 import { computed } from "vue";
 import PageComponent from "../components/PageComponent.vue";
 
-const surveys = computed(() => store.state.surveys.data);
+const surveys = computed(() => store.state.surveys);
 
 store.dispatch("getSurveys");
 
