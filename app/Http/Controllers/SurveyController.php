@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreSurveyAnswerRequest;
 use App\Models\Survey;
 use App\Http\Requests\StoreSurveyRequest;
 use App\Http\Requests\UpdateSurveyRequest;
 use App\Http\Resources\SurveyResource;
+use App\Models\SurveyAnswere;
 use App\Models\SurveyQuestion;
+use App\Models\SurveyQuestionAnswere;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -25,8 +28,8 @@ class SurveyController extends Controller
     {
         $user = $request->user();
 
-        return SurveyResource::collection(Survey::where('user_id', $user->id)->paginate()); 
-        // return SurveyResource::collection(Survey::where('user_id', $user->id)->orderBy('created_at', 'DESC')->paginate(10));
+       // return SurveyResource::collection(Survey::where('user_id', $user->id)->paginate()); 
+       return SurveyResource::collection(Survey::where('user_id', $user->id)->orderBy('created_at', 'DESC')->paginate(10));
 
     }
 
@@ -70,6 +73,42 @@ class SurveyController extends Controller
             return abort(403,'Unauthorized action'); 
         }
         return new SurveyResource($survey);
+    }
+    public function showForGuest( Survey $survey)
+    {
+        // $user = $request->user();
+        // if($user->id !== $survey->user_id){
+        //     return abort(403,'Unauthorized action'); 
+        // }
+        return new SurveyResource($survey);
+    }
+
+    public function storeAnswer(StoreSurveyAnswerRequest $request, Survey $survey){
+        $validated = $request->validated();
+
+        $surveyAnswer = SurveyAnswere::create([
+            'survey_id' => $survey->id,
+            'start_date' => date('Y-m-d H:i:s'),
+            'end_date' => date('Y-m-d H:i:s'),
+        ]);
+
+        foreach ($validated['answers'] as $questionId => $answer) {
+            $question = SurveyQuestion::where(['id' => $questionId, 'survey_id' => $survey->id])->get();
+            if (!$question) {
+                return response("Invalid question ID: \"$questionId\"", 400);
+            }
+            $data = [
+                'survey_question_id' => $questionId,
+                'survey_answeres_id' => $surveyAnswer->id,
+                'answer' => is_array($answer) ? json_encode($answer) : $answer
+            ];
+
+            $questionAnswer = SurveyQuestionAnswere::create($data);
+
+        }
+
+        return response($questionAnswer, 201);
+
     }
 
     /**

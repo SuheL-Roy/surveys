@@ -8,6 +8,7 @@ import surveys from '../view/surveys.vue';
 import SurveyView from '../view/SurveyView.vue'
 import store from '../store';
 import AuthLayout from '../components/Authlayout.vue';
+import SurveyPublic from '../view/SurveyPublic.vue';
 
 const routes=[
     {
@@ -39,6 +40,11 @@ const routes=[
                 component:SurveyView
             }
         ]
+    },
+    {
+        path: "/view/survey/:slug",
+        name: 'SurveyPublic',
+        component: SurveyPublic
     },
     {
        path:'/Auth',
